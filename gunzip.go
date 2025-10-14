@@ -394,6 +394,7 @@ func (z *Reader) seekToPoint(p Point) (position int64, err error) {
 		z.decompressor, z.err = flate.NewReaderState(z.bufR, p.DecompressorState)
 	}
 	z.pos = p.UncompressedOffset
+	z.furthestRead = z.pos
 	return z.pos, z.err
 }
 
