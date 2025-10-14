@@ -5,39 +5,39 @@
 // Package gzran implements a seekable gzip.Reader that indexes offsets within
 // the file as reading progresses, to make subsequent seeking more performant.
 //
-//   gzr, err := gzran.NewReader(r)
-//   if err != nil {
-//     panic(err)
-//   }
-//   // Seek forward within the file, indexing as we go.
-//   if _, err := gzr.Seek(n, io.SeekStart); err != nil {
-//     panic(err)
-//   }
-//   // Seek backward, using the on-the-fly index to do so efficiently.
-//   if _, err := gzr.Seek(n - 128000, io.SeekStart); err != nil {
-//     panic(err)
-//   }
+//	gzr, err := gzran.NewReader(r)
+//	if err != nil {
+//	  panic(err)
+//	}
+//	// Seek forward within the file, indexing as we go.
+//	if _, err := gzr.Seek(n, io.SeekStart); err != nil {
+//	  panic(err)
+//	}
+//	// Seek backward, using the on-the-fly index to do so efficiently.
+//	if _, err := gzr.Seek(n - 128000, io.SeekStart); err != nil {
+//	  panic(err)
+//	}
 //
 // The Index can also be persisted and reused later:
 //
-//   // Read through entire file to index it, and then save the Index.
-//   if _, err := io.Copy(ioutil.Discard, gzr); err != nil {
-//     panic(err)
-//   }
-//   if err := gzr.Index.WriteTo(f); err != nil {
-//     panic(err)
-//   }
+//	// Read through entire file to index it, and then save the Index.
+//	if _, err := io.Copy(ioutil.Discard, gzr); err != nil {
+//	  panic(err)
+//	}
+//	if err := gzr.Index.WriteTo(f); err != nil {
+//	  panic(err)
+//	}
 //
-//   // Create a new gzip.Reader and load the Index to use it.
-//   gzr, err := gzran.NewReader(r)
-//   if err != nil {
-//     panic(err)
-//   }
-//   gzr.Index, err = gzran.LoadIndex(f)
-//   if err != nil {
-//     panic(err)
-//   }
-//   // Seek and read as desired using the Index.
+//	// Create a new gzip.Reader and load the Index to use it.
+//	gzr, err := gzran.NewReader(r)
+//	if err != nil {
+//	  panic(err)
+//	}
+//	gzr.Index, err = gzran.LoadIndex(f)
+//	if err != nil {
+//	  panic(err)
+//	}
+//	// Seek and read as desired using the Index.
 package gzran
 
 import (
@@ -45,10 +45,9 @@ import (
 	"errors"
 	"hash/crc32"
 	"io"
-	"io/ioutil"
 	"time"
 
-	"github.com/timpalpant/gzran/internal/flate"
+	"github.com/chocolatkey/gzran/internal/flate"
 )
 
 const (
@@ -366,7 +365,7 @@ func (z *Reader) seekForward(offset int64) (position int64, err error) {
 		}
 	}
 	nBytesToSkip := offset - z.pos
-	_, z.err = io.CopyN(ioutil.Discard, z, nBytesToSkip)
+	_, z.err = io.CopyN(io.Discard, z, nBytesToSkip)
 	return z.pos, z.err
 }
 
