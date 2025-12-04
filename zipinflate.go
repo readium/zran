@@ -122,7 +122,7 @@ func (z *DReader) Seek(offset int64, whence int) (position int64, err error) {
 
 func (z *DReader) seekForward(offset int64) (position int64, err error) {
 	seekPoint := z.Index.closestPointBefore(offset)
-	if seekPoint.UncompressedOffset > z.pos+z.indexInterval {
+	if seekPoint.UncompressedOffset >= z.pos+z.indexInterval {
 		if pos, err := z.seekToPoint(seekPoint); err != nil {
 			return pos, err
 		}
