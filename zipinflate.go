@@ -1,6 +1,7 @@
 package gzran
 
 import (
+	"errors"
 	"io"
 
 	"github.com/chocolatkey/gzran/internal/flate"
@@ -18,13 +19,22 @@ type DReader struct {
 	r            io.ReadSeeker
 	bufR         *tellReader
 	decompressor io.ReadCloser
-	size         uint32 // Uncompressed size (section 2.3.1)
 	err          error
 
 	pos           int64 // Current offset of Read() within the uncompressed data.
 	furthestRead  int64
 	indexInterval int64
 }
+
+// DefaultIndexInterval is how often the reader will save decompressor state by default.
+const DefaultIndexInterval = 1024 * 1024 // 1 MB
+
+var (
+	// ErrInvalidSeek is returned if attempting to seek prior to beginning of the file.
+	ErrInvalidSeek = errors.New("zseek: attempting to seek before beginning of file")
+	// ErrUnimplementedSeek is returned if attempting to seek from the end of the file.
+	ErrUnimplementedSeek = errors.New("zseek: seek from SeekEnd is not implemented")
+)
 
 func NewDReader(r io.ReadSeeker) (*DReader, error) {
 	return NewDReaderInterval(r, DefaultIndexInterval)
