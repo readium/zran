@@ -1,4 +1,4 @@
-package gzran
+package zran
 
 import (
 	"encoding/gob"
