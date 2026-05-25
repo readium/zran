@@ -4,7 +4,7 @@ import (
 	"errors"
 	"io"
 
-	"github.com/readium/gzran/internal/flate"
+	"github.com/readium/zran/internal/flate"
 )
 
 // A Reader is an io.Reader that can be read to retrieve
