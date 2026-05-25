@@ -1,3 +1,3 @@
-module github.com/chocolatkey/gzran
+module github.com/readium/gzran
 
 go 1.15

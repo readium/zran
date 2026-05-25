@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/chocolatkey/gzran/internal/flate"
+	"github.com/readium/gzran/internal/flate"
 )
 
 // tellReader is a bufio.Reader that also tracks its offset
